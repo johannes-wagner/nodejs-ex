@@ -103,7 +103,14 @@ app.get("/scrape", function(req, res) {
             // Next, we"ll utilize the cheerio library on the returned html which will essentially give us jQuery functionality
 
             var $ = cheerio.load(html);
-			console.log($("div.col-lg-9"))
+			$("div.col-lg-9").each(function(i, element){
+				var header = $(this).find("div.panel-heading").text();
+				console.log(header);
+				var children = $(this).find("ul").children
+				console.log(children);
+				
+				res.send("{ header: "+header+ ", children: "+ children +"}" )
+			});
 		}else{
 			console.log(error);
 		}

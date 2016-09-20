@@ -106,13 +106,14 @@ app.get("/scrape/:player", function(req, res) {
             var $ = cheerio.load(html);
 			$("div.col-lg-9").each(function(i, element){
 				var header = $(this).find("div.panel-heading").text();
-				if(header.startsWith("Spieler Steckbrief"){
+				if(header.startsWith("Spieler Steckbrief")){
 					var children = $(this).find("ul").children();
 					res.send(children);
 				}
 			});
 		}else{
 			console.log(error);
+			res.send(error);
 		}
 	});
 });

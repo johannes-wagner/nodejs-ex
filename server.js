@@ -116,14 +116,14 @@ app.get("/scrape/:player", function(req, res) {
 			$("div.col-lg-9").children().find("ul").first().find("li").children().each(function(i, elem){ 
 				console.log(elem);
 				var date;
-				switch(elem.nextSibling.data){
-					case("Mitglied seit"): date = elem.innerText.split("."); user.memberSince = new Date(date[2],date[1]-1,date[0]);break;
-					case("Zuletzt online"):date = elem.innerText.split("."); user.lastLogin = new Date(date[2],date[1]-1,date[0]);break;
-					case("Zuletzt gevotet"):user.lastVote = new Date(elem.innerText);break;
-					case("Anzahl der Votes"):user.voteCount = elem.innerText*1;break;
-					case("Anzahl der Logins"):user.loginCount = elem.innerText*1;break;
-					case("Gesamt Spielzeit"):var ontime = elem.innerText.split(":"); user.ontime = (60*ontime[0]+ontime[1])*60+ontime[2];
-					case("Spieler gebannt"):user.banned = elem.innerText*1;break;
+				switch(elem.next.data){
+					case("Mitglied seit"): date = elem.children[0].data.split("."); user.memberSince = new Date(date[2],date[1]-1,date[0]);break;
+					case("Zuletzt online"):date = elem.children[0].data.split("."); user.lastLogin = new Date(date[2],date[1]-1,date[0]);break;
+					case("Zuletzt gevotet"):user.lastVote = new Date(elem.children[0].data);break;
+					case("Anzahl der Votes"):user.voteCount = elem.children[0].data*1;break;
+					case("Anzahl der Logins"):user.loginCount = elem.children[0].data*1;break;
+					case("Gesamt Spielzeit"):var ontime = elem.children[0].data.split(":"); user.ontime = (60*ontime[0]+ontime[1])*60+ontime[2];
+					case("Spieler gebannt"):user.banned = elem.children[0].data*1;break;
 			}});
 			//user[elem.nextSibling.data] = elem.innerText;}); 
 			console.log(user);

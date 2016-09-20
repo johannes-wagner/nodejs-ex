@@ -122,7 +122,7 @@ app.get("/scrape/:player", function(req, res) {
 					case("Anzahl der Logins"):user.loginCount = elem.innerText*1;break;
 					case("Gesamt Spielzeit"):var ontime = elem.innerText.split(":"); user.ontime = (60*ontime[0]+ontime[1])*60+ontime[2];
 					case("Spieler gebannt"):user.banned = elem.innerText*1;break;
-				}
+			}});
 			//user[elem.nextSibling.data] = elem.innerText;}); 
 			console.log(user);
 			res.send(user);

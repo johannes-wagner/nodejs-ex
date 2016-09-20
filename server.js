@@ -93,8 +93,9 @@ app.get("/pagecount", function (req, res) {
   }
 });
 
-app.get("/scrape", function(req, res) {
-	url = "http://torch.myftb.de/player/_jabba_"
+app.get("/scrape/:player", function(req, res) {
+	player = req.params.player || "_jabba_"
+	url = "http://torch.myftb.de/player/"+player
 	request(url, function(error, response, html){
 
         // First we"ll check to make sure no errors occurred when making the request
@@ -105,11 +106,10 @@ app.get("/scrape", function(req, res) {
             var $ = cheerio.load(html);
 			$("div.col-lg-9").each(function(i, element){
 				var header = $(this).find("div.panel-heading").text();
-				console.log(header);
-				var children = $(this).find("ul").children
-				console.log(children);
-				
-				res.send("{ header: "+header+ ", children: "+ children +"}" )
+				if(header.startsWith("Spieler Steckbrief"){
+					var children = $(this).find("ul").children();
+					res.send(children);
+				}
 			});
 		}else{
 			console.log(error);

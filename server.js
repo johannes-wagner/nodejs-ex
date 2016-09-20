@@ -111,9 +111,21 @@ app.get("/scrape/:player", function(req, res) {
 					res.send(children);
 				}
 			});*/
-			var children = $("div.col-lg-9").children().find("ul")[0];
-			console.log(children);
-			res.send({ success: true});
+			
+			var user = {}; 
+			$("div.col-lg-9").children().find("ul").first().find("li").children().each(function(i, elem){ 
+				switch(elem.nextSibling.data){
+					case("Mitglied seit"):user.memberSince = new Date(elem.innerText);break;
+					case("Zuletzt online"):user.lastLogin = new Date(elem.innerText);break;
+					case("Zuletzt gevotet"):user.lastVote = new Date(elem.innerText);break;
+					case("Anzahl der Votes"):user.voteCount = elem.innerText*1;break;
+					case("Anzahl der Logins"):user.loginCount = elem.innerText*1;break;
+					case("Gesamt Spielzeit"):var ontime = elem.innerText.split(":"); user.ontime = (60*ontime[0]+ontime[1])*60+ontime[2];
+					case("Spieler gebannt"):user.banned = elem.innerText*1;break;
+				}
+			//user[elem.nextSibling.data] = elem.innerText;}); 
+			console.log(user);
+			res.send(user);
 		}else{
 			console.log(error);
 			res.send(error);
@@ -130,6 +142,8 @@ app.use(function(err, req, res, next){
 initDb(function(err){
   console.log("Error connecting to Mongo. Message:\n"+err);
 });
+
+
 
 app.listen(port, ip);
 console.log("Server running on http://%s:%s", ip, port);

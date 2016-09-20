@@ -112,7 +112,8 @@ app.get("/scrape/:player", function(req, res) {
 				}
 			});*/
 			var children = $("div.col-lg-9").children().find("ul")[0];
-			res.send(children);
+			console.log(children);
+			res.send({ success: true});
 		}else{
 			console.log(error);
 			res.send(error);

@@ -107,7 +107,7 @@ app.get("/scrape", function(req, res) {
 		}else{
 			console.log(error);
 		}
-	
+	});
 });
 
 // error handling

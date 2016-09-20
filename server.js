@@ -114,9 +114,11 @@ app.get("/scrape/:player", function(req, res) {
 			
 			var user = {}; 
 			$("div.col-lg-9").children().find("ul").first().find("li").children().each(function(i, elem){ 
+				console.log(elem);
+				var date;
 				switch(elem.nextSibling.data){
-					case("Mitglied seit"):user.memberSince = new Date(elem.innerText);break;
-					case("Zuletzt online"):user.lastLogin = new Date(elem.innerText);break;
+					case("Mitglied seit"): date = elem.innerText.split("."); user.memberSince = new Date(date[2],date[1]-1,date[0]);break;
+					case("Zuletzt online"):date = elem.innerText.split("."); user.lastLogin = new Date(date[2],date[1]-1,date[0]);break;
 					case("Zuletzt gevotet"):user.lastVote = new Date(elem.innerText);break;
 					case("Anzahl der Votes"):user.voteCount = elem.innerText*1;break;
 					case("Anzahl der Logins"):user.loginCount = elem.innerText*1;break;
